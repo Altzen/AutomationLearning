@@ -3,9 +3,13 @@ package pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class ContactUs {
+public class ContactUs extends GlobalNavigation {
 
-    protected WebDriver driver;
+    public ContactUs(WebDriver driver){
+        super(driver);
+//        initElements();
+    }
+
 
     private WebElement reason;
     private WebElement firstName;

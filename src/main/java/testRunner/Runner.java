@@ -10,20 +10,22 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 public class Runner {
 
     public WebDriver runChrome() {
-        WebDriverManager.chromedriver().setup();
+
         ChromeOptions options = new ChromeOptions();
 
         options.addArguments("start-maximized");
+        WebDriver driver = new ChromeDriver(options);
+        driver.manage().window().maximize();
 
-        return new ChromeDriver(options);
+        return driver;
     }
 
     public WebDriver runFireFox() {
-        WebDriverManager.firefoxdriver().setup();
         FirefoxOptions options = new FirefoxOptions();
+        WebDriver driver = new FirefoxDriver(options);
+        driver.manage().window().maximize();
 
-
-        return new FirefoxDriver(options);
+        return driver;
 
 
     }

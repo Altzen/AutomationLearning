@@ -6,12 +6,17 @@ import org.openqa.selenium.WebElement;
 
 public class About extends GlobalNavigation {
 
-    protected WebDriver driver;
 
     private WebElement downloadOverview;
 
+    public About(WebDriver driver){
+        super(driver);
+        initElements();
+    }
+
     private void initElements(){
-        downloadOverview = driver.findElement(By.xpath("//a[@href='https://www.epam.com/content/dam/epam/free_library/EPAM_Corporate_Overview_2023.pdf']"));
+
+        downloadOverview = driver.findElement(By.cssSelector(".button .button-ui-23[download]"));
     }
 
     public WebElement getDownloadOverview(){

@@ -4,7 +4,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class EpamHome extends GlobalNavigation{
-    protected WebDriver driver;
+
+    public EpamHome(WebDriver driver){
+        super(driver);
+//        initElements();
+    }
 
     private WebElement policiesInvestors;
     private WebElement policiesOpenS;

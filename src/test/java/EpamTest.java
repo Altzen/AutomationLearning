@@ -1,5 +1,4 @@
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -7,35 +6,60 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import pages.About;
+import pages.GlobalNavigation;
 import testRunner.Runner;
 
 import java.io.File;
 import java.time.Duration;
 
-public class ReportDownloadTest {
+public class EpamTest {
 
     private WebDriver driver;
     Runner runner = new Runner();
     private final String downloadPath = "C:\\Users\\mserg\\Downloads";
 
-    @BeforeMethod
-    @Parameters("browser")
-    public void setup(String browser) {
-        if (browser.equalsIgnoreCase("chrome")) {
-            driver = runner.runChrome();
-        } else if (browser.equalsIgnoreCase("firefox")) {
-            driver = runner.runFireFox();
-
-        }
-    }
-
 //    @BeforeMethod
-//    public void setup() {
-//        driver = runner.runChrome();
+//    @Parameters("browser")
+//    public void setup(String browser) {
+//        if (browser.equalsIgnoreCase("chrome")) {
+//            driver = runner.runChrome();
+//        } else if (browser.equalsIgnoreCase("firefox")) {
+//            driver = runner.runFireFox();
+//
+//        }
 //    }
 
+    @BeforeMethod
+    public void setup() {
+        driver = runner.runFireFox();
+    }
+
     @Test
-    public void downloadFile() {
+    public void searchTest(){
+        driver.get("https://www.epam.com/");
+        GlobalNavigation nav = new GlobalNavigation(driver);
+
+        nav.clickOnSearchButton();
+        nav.getSearchInput().sendKeys("AI");
+
+    }
+    @Test
+    public void goToUASite(){
+        driver.get("https://www.epam.com/");
+        GlobalNavigation nav = new GlobalNavigation(driver);
+
+        nav.clickOnLanguageDropdownButton();
+        nav.waitForSelectedElement(driver, nav.getEpamUALanguageButtonSelector(),10);
+        nav.clickOnEpamUALanguageButton();
+
+        String expectedUrl = "https://careers.epam.ua/";
+        nav.waitForUrlChange(driver,expectedUrl,10);
+
+        String currentUrl = driver.getCurrentUrl();
+        Assert.assertEquals(currentUrl, expectedUrl, "URL does not match the expected URL");
+    }
+    @Test
+    public void downloadAndVerifyFile() {
 
         driver.get("https://www.epam.com/about");
         About about = new About(driver);

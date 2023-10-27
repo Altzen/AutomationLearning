@@ -3,13 +3,13 @@
     <test name="Test in Chrome">
         <parameter name="browser" value="chrome" />
         <classes>
-            <class name="ReportDownloadTest" />
+            <class name="EpamTest" />
         </classes>
     </test>
     <test name="Test in Firefox">
         <parameter name="browser" value="firefox" />
         <classes>
-            <class name="ReportDownloadTest" />
+            <class name="EpamTest" />
         </classes>
     </test>
 </suite>

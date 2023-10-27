@@ -6,9 +6,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class GlobalNavigation {
     protected WebDriver driver;
+
+    private final String COOKIE_ACCEPT_ALL_SELECTOR = ".ot-sdk-row #onetrust-accept-btn-handler";
 
     private WebElement logo;
     private WebElement themeSwitcher;
@@ -25,11 +31,15 @@ public class GlobalNavigation {
 
     private void initElements(){
 
-        cookieAcceptAll = driver.findElement(By.cssSelector(".ot-sdk-row #onetrust-accept-btn-handler"));
+        this.waitForSelectedElement(driver,COOKIE_ACCEPT_ALL_SELECTOR,10);
+        cookieAcceptAll = driver.findElement(By.cssSelector(COOKIE_ACCEPT_ALL_SELECTOR));
     }
 
     public WebElement getCookieAcceptAll(){
         return cookieAcceptAll;
+    }
+    public String getCookieAcceptAllSelector() {
+        return COOKIE_ACCEPT_ALL_SELECTOR;
     }
 
     public void clickOnCookieAcceptAll(){
@@ -38,10 +48,14 @@ public class GlobalNavigation {
     public void moveToElement(WebDriver driver, WebElement element) {
         Actions actions = new Actions(driver);
         if (driver instanceof FirefoxDriver){
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
         }
         actions.moveToElement(element);
         actions.perform();
+    }
+    public void waitForSelectedElement(WebDriver driver, String selector, int duration){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(duration));
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(selector)));
     }
 
 }

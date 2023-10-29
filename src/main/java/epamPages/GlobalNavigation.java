@@ -1,10 +1,6 @@
-package pages;
+package epamPages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -16,11 +12,14 @@ public class GlobalNavigation {
 
     private final String COOKIE_ACCEPT_ALL_SELECTOR = ".ot-sdk-row #onetrust-accept-btn-handler";
     private final String LOGO = ".desktop-logo";
-    private final String THEME_SWITCHER = "TODO ";
+    private final String THEME_SWITCHER = "//div[contains(@class, 'header__content')]/section[contains(@class, 'theme-switcher-ui')]/div";
     private final String LANGUAGE_DROPDOWN_BUTTON = ".location-selector__button";
     private final String EPAM_UA_LANGUAGE_BUTTON = ".location-selector__item a[lang='uk']";
     private final String SEARCH_BUTTON = ".header-search__button";
     private final String SEARCH_INPUT = "#new_form_search";
+    private final String BODY = "body.fonts-loaded";
+
+
 
 
     private WebElement logo;
@@ -30,7 +29,7 @@ public class GlobalNavigation {
     private WebElement searchButton;
     private WebElement searchInput;
     private WebElement cookieAcceptAll;
-
+    private WebElement body;
     public GlobalNavigation(WebDriver driver) {
         this.driver = driver;
         initElements();
@@ -38,13 +37,15 @@ public class GlobalNavigation {
 
     private void initElements() {
 
-        this.waitForSelectedElement(driver, COOKIE_ACCEPT_ALL_SELECTOR, 10);
+        this.waitForSelectedElementToBeClickable(driver, COOKIE_ACCEPT_ALL_SELECTOR, 10);
         cookieAcceptAll = driver.findElement(By.cssSelector(COOKIE_ACCEPT_ALL_SELECTOR));
         logo = driver.findElement(By.cssSelector(LOGO));
         languageDropdownButton = driver.findElement(By.cssSelector(LANGUAGE_DROPDOWN_BUTTON));
         epamUALanguageButton = driver.findElement(By.cssSelector(EPAM_UA_LANGUAGE_BUTTON));
         searchButton = driver.findElement(By.cssSelector(SEARCH_BUTTON));
         searchInput = driver.findElement(By.cssSelector(SEARCH_INPUT));
+        body = driver.findElement(By.cssSelector(BODY));
+        themeSwitcher = driver.findElement(By.xpath(THEME_SWITCHER));
     }
 
     public WebElement getCookieAcceptAll() {
@@ -79,11 +80,11 @@ public class GlobalNavigation {
         return SEARCH_BUTTON;
     }
 
-    public WebElement getSearchInput() {
+    public WebElement getGLobalNavSearchInput() {
         return searchInput;
     }
 
-    public String getSearchInputSelector() {
+    public String getGLobalNavSearchInputSelector() {
         return SEARCH_INPUT;
     }
 
@@ -94,9 +95,22 @@ public class GlobalNavigation {
     public String getLogoSelector() {
         return LOGO;
     }
+    public WebElement getThemeSwitcher(){
+        return themeSwitcher;
+    }
+    public String getThemeSwitcherSelector(){
+        return THEME_SWITCHER;
+    }
 
+    public String getBodySelector() {
+        return BODY;
+    }
+    public WebElement getBody (){
+        return body;
+    }
 
     public void clickOnCookieAcceptAll() {
+        this.waitForSelectedElementToBeVisible(driver,getCookieAcceptAllSelector(),5);
         getCookieAcceptAll().click();
     }
     public void clickOnSearchButton(){
@@ -108,25 +122,53 @@ public class GlobalNavigation {
     public void clickOnEpamUALanguageButton(){
         getEpamUALanguageButton().click();
     }
+    public void clickOnModeSwitch(){
+        getThemeSwitcher().click();
+    }
 
     public void moveToElement(WebDriver driver, WebElement element) {
         Actions actions = new Actions(driver);
-        if (driver instanceof FirefoxDriver) {
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
-        }
-        actions.moveToElement(element);
-        actions.perform();
     }
 
-    public void waitForSelectedElement(WebDriver driver, String selector, int duration) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(duration));
-        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(selector)));
+    public String getCurrentMode(){
+        String classes = this.getBody().getAttribute("class");
 
+        if (classes.contains("dark-mode")) {
+            return "dark-mode";
+        } else if (classes.contains("light-mode")) {
+            return "light-mode";
+        } else {
+            return "unknown";
+        }
+    }
+
+    public void waitForSelectedElementToBeClickable(WebDriver driver, String selector, int duration) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(duration));
+            wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(selector)));
+        }catch (InvalidSelectorException e){
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(duration));
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath(selector)));
+        }
+    }
+    public void waitForSelectedElementToBeVisible(WebDriver driver, String selector, int duration) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(duration));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(selector)));
+        }catch (InvalidSelectorException e){
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(duration));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(selector)));
+        }
     }
 
     public void waitForUrlChange(WebDriver driver, String url, int duration) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(duration));
         wait.until(ExpectedConditions.urlToBe(url));
+    }
+    public void waitForAttribute (WebDriver driver,WebElement element, String attributeType,String attributeName, int duration) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(duration));
+        wait.until(ExpectedConditions.attributeContains(element,attributeType,attributeName));
 
     }
 

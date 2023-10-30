@@ -1,5 +1,4 @@
-package uiTests;
-
+import epamPages.*;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,7 +9,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import uiTesting.epamPages.*;
-import uiTesting.testRunner.Runner;
+import testRunner.Runner;
 
 import java.io.File;
 import java.time.Duration;

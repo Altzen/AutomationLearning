@@ -1,4 +1,4 @@
-package uiTesting.tools;
+package tools;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.InvalidSelectorException;

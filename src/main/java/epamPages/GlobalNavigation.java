@@ -1,8 +1,7 @@
-package uiTesting.epamPages;
+package epamPages;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
-import uiTesting.tools.Wait;
+import tools.Wait;
 
 public class GlobalNavigation extends Wait {
 

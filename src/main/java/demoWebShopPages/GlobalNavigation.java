@@ -1,9 +1,9 @@
-package uiTesting.demoWebShopPages;
+package demoWebShopPages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import uiTesting.tools.Wait;
+import tools.Wait;
 
 public class GlobalNavigation extends Wait {
 

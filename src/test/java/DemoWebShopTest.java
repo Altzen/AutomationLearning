@@ -1,14 +1,12 @@
-package uiTests;
-
-import uiTesting.demoWebShopPages.LoginPage;
-import uiTesting.demoWebShopPages.RegisterPage;
+import demoWebShopPages.LoginPage;
+import demoWebShopPages.RegisterPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import uiTesting.testRunner.Runner;
+import testRunner.Runner;
 
 public class DemoWebShopTest {
 
@@ -55,6 +53,8 @@ public class DemoWebShopTest {
 
     @Test
     public void logInOutTest(){
+        //TODO Should be realized method to create a user for login - Blocked because there is no access to the database or admin panel
+
         driver.get("https://demowebshop.tricentis.com/");
         LoginPage page = new LoginPage(driver);
         page.getLogin().click();
@@ -69,6 +69,9 @@ public class DemoWebShopTest {
         page.initElements();
         page.waitForSelectedElementToBeVisible(driver, page.getLoginSelector(), 5);
         Assert.assertEquals(page.getLogin().getText(),"Log in");
+
+        //TODO Should be realized method to remove created user - Blocked because there is no access to the database or admin panel
+
     }
 
     @AfterMethod(alwaysRun = true)

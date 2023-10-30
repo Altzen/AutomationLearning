@@ -1,3 +1,5 @@
+package uiTests;
+
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,8 +9,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import epamPages.*;
-import testRunner.Runner;
+import uiTesting.epamPages.*;
+import uiTesting.testRunner.Runner;
 
 import java.io.File;
 import java.time.Duration;
@@ -20,21 +22,21 @@ public class EpamTest {
     Runner runner = new Runner();
     private final String downloadPath = "C:\\Users\\mserg\\Downloads";
 
-//    @BeforeMethod
-//    @Parameters("browser")
-//    public void setup(String browser) {
-//        if (browser.equalsIgnoreCase("chrome")) {
-//            driver = runner.runChrome();
-//        } else if (browser.equalsIgnoreCase("firefox")) {
-//            driver = runner.runFireFox();
-//
-//        }
-//    }
+    @BeforeMethod
+    @Parameters("browser")
+    public void setup(String browser) {
+        if (browser.equalsIgnoreCase("chrome")) {
+            driver = runner.runChrome();
+        } else if (browser.equalsIgnoreCase("firefox")) {
+            driver = runner.runFireFox();
 
-    @BeforeMethod           // solo browser run
-    public void setup() {
-        driver = runner.runFireFox();
+        }
     }
+
+//    @BeforeMethod           // solo browser run
+//    public void setup() {
+//        driver = runner.runFireFox();
+//    }
 
     @Test
     public void searchTest() {

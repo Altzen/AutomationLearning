@@ -1,4 +1,4 @@
-package epamPages;
+package uiTesting.epamPages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -34,9 +34,6 @@ public class EpamSearch extends GlobalNavigation {
 
     public WebElement getSearchInput(){
         return searchInput;
-    }
-    public String getSearchInputSelector() {
-        return SEARCH_INPUT;
     }
 
 }

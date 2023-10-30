@@ -1,14 +1,10 @@
-package epamPages;
+package uiTesting.epamPages;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import uiTesting.tools.Wait;
 
-import java.time.Duration;
-
-public class GlobalNavigation {
-    protected WebDriver driver;
+public class GlobalNavigation extends Wait {
 
     private final String COOKIE_ACCEPT_ALL_SELECTOR = ".ot-sdk-row #onetrust-accept-btn-handler";
     private final String LOGO = ".desktop-logo";
@@ -31,7 +27,7 @@ public class GlobalNavigation {
     private WebElement cookieAcceptAll;
     private WebElement body;
     public GlobalNavigation(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
         initElements();
     }
 
@@ -127,7 +123,6 @@ public class GlobalNavigation {
     }
 
     public void moveToElement(WebDriver driver, WebElement element) {
-        Actions actions = new Actions(driver);
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
     }
 
@@ -141,35 +136,6 @@ public class GlobalNavigation {
         } else {
             return "unknown";
         }
-    }
-
-    public void waitForSelectedElementToBeClickable(WebDriver driver, String selector, int duration) {
-        try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(duration));
-            wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(selector)));
-        }catch (InvalidSelectorException e){
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(duration));
-            wait.until(ExpectedConditions.elementToBeClickable(By.xpath(selector)));
-        }
-    }
-    public void waitForSelectedElementToBeVisible(WebDriver driver, String selector, int duration) {
-        try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(duration));
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(selector)));
-        }catch (InvalidSelectorException e){
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(duration));
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(selector)));
-        }
-    }
-
-    public void waitForUrlChange(WebDriver driver, String url, int duration) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(duration));
-        wait.until(ExpectedConditions.urlToBe(url));
-    }
-    public void waitForAttribute (WebDriver driver,WebElement element, String attributeType,String attributeName, int duration) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(duration));
-        wait.until(ExpectedConditions.attributeContains(element,attributeType,attributeName));
-
     }
 
 }
